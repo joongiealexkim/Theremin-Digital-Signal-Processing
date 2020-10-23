@@ -8,9 +8,7 @@
 #include <msp430.h>
 #include "test_pins.h"
 
-// The first function does this by setting all used pins to output mode, then creating a square wave at each of them
-// the square wave has a period of two seconds (~1 second high, ~1 second low), with a high value of 3.3V and a low value of 0 V.
-// (that is, a high of VCC and low of VDD)
+
 void test_pin_all_square() {
     // initialize port pins
     // I will be using pins p5.0, p5.1, p3.1, p1.3, p1.2, p2.0, p4.0
@@ -49,9 +47,9 @@ void test_pin_all_square() {
     debug_loop = 1;
 
     while (debug_loop == 1) {
-        // sleep for 16,000,000 clock cycles.
-        // Assuming a 16 MHz clock, 1 second.
-        _delay_cycles(1000000);
+        // sleep for 4,000,000 clock cycles.
+        // Assuming a 16 MHz clock, 0.25 seconds.
+        _delay_cycles(4000000);
 
         // set the pin outputs to "high"
         P5OUT |= (BIT0 | BIT1);
@@ -60,7 +58,7 @@ void test_pin_all_square() {
         P2OUT |= (BIT0);
         P1OUT |= (BIT2 | BIT3);
 
-        _delay_cycles(1000000);
+        _delay_cycles(4000000);
 
         // set the pin outputs to "low"
         P5OUT &= ~(BIT0 | BIT1);
@@ -73,34 +71,40 @@ void test_pin_all_square() {
     }
 }
 
-// The second function ties the ADC inputs to the two LEDS
-// That is, applying a voltage to pin5.0 will make LED1 light up.
-// Similarly, applying a voltage to pin5.1 will make LED2 light up.
 void test_pin_ADC() {
     // Set P5.0 and P5.1 as ADC input
-    P5SEL1 &= ~(BIT0 | BIT1);
-    P5SEL0 &= ~(BIT0 | BIT1);
+    P5SEL1 |= (BIT0 | BIT1);
+    P5SEL0 |= (BIT0 | BIT1);
 
     //first, ensure that ADC is off
     ADCCTL0 &= ~(ADCENC);
     ADCCTL0 &= ~(ADCON);
+    ADCCTL0 &= ~(ADCSC);
+    // Initialize interrupt vectors
+    ADCIE &= 0x0000;
+    ADCIFG &= 0x0000;
+
     // default value for sample-and-hold time is 1h->8 cycles on a 12-bit ADC
-    // set multiple sample-and-conversion
+    // disable multiple sample-and-conversion
     ADCCTL0 &= ~(ADCMSC);
 
     // set sample-and-hold source to ADCSC bit
     ADCCTL1 &= ~(ADCSHS1 | ADCSHS0);
     // sample input signal is not inverted
     ADCCTL1 &= ~(ADCISSH);
-    // clock divide set to 1
-    ADCCTL1 &= ~(ADCDIV2 | ADCDIV1 | ADCDIV0);
-    // set clock source to MODCLK
-    ADCCTL1 &= ~(ADCSSEL1 | ADCSSEL0);
+    // clock divide set to 4
+    ADCCTL1 &= ~(ADCDIV2);
+    ADCCTL1 |= (ADCDIV1 | ADCDIV0);
+    // set clock source to SMCLK - the 16 MHz clock
+    ADCCTL1 |= (ADCSSEL1 | ADCSSEL0);
     //set to single-channel single-conversion mode
     ADCCTL1 &= ~(ADCCONSEQ1 | ADCCONSEQ0);
+    // set to pulse sample mode
+    ADCCTL1 |= ADCSHP;
 
-    // Set predivider to 1
-    ADCCTL2 &= ~(ADCPDIV1 | ADCPDIV0);
+    // Set predivider to 4
+    ADCCTL2 |= ADCPDIV0;
+    ADCCTL2 &= ~(ADCPDIV1);
     // 12 bit resolution
     ADCCTL2 |=  ADCRES1;
     ADCCTL2 &= ~ADCRES0;
@@ -113,22 +117,30 @@ void test_pin_ADC() {
     // set reference voltage to AVCC and AVSS
     ADCMCTL0 &= ~(ADCSREF2 | ADCSREF1 | ADCSREF0);
 
-    // set P1.0 and P1.6 as output
-    P1DIR |= (BIT0 | BIT6);
+    // set P1.0 and P6.6 as output
+    P1DIR |= (BIT0);
+    P6DIR |= (BIT6);
     //set to general purpose I/O
-    P1SEL1 &= ~(BIT0 | BIT6);
-    P1SEL0 &= ~(BIT0 | BIT6);
+    P1SEL1 &= ~(BIT0);
+    P1SEL0 &= ~(BIT0);
+    P6SEL1 &= ~(BIT6);
+    P6SEL0 &= ~(BIT0);
     // initialize outputs to zero
     P1OUT &= ~(BIT0 | BIT6);
 
 
     int debug_loop;
     debug_loop = 1;
-    int A0_input, A1_input;
+    int A8_input, A9_input;
 
     while (debug_loop == 1) {
-        // set ADC input to pin p5.0, input A0
-        ADCMCTL0 &= ~(ADCINCH3 | ADCINCH2 | ADCINCH1 | ADCINCH0);
+        //deactivate ADC
+        ADCCTL0 &= ~(ADCENC);
+        ADCCTL0 &= ~(ADCON);
+
+        // set ADC input to pin p5.0, input A8
+        ADCMCTL0 &= ~(ADCINCH2 | ADCINCH1 | ADCINCH0);
+        ADCMCTL0 |= (ADCINCH3);
         // activate ADC
         ADCCTL0 |= (ADCON);
         ADCCTL0 |= (ADCSC | ADCENC);
@@ -138,18 +150,18 @@ void test_pin_ADC() {
             // wait for it to finish and become not busy
         }
         // read ADC output
-        A0_input = ADCMEM0;
+        A8_input = ADCMEM0;
         // we will say that the input was HIGH if the ADC value was greater than 2048, half the max value
         // activate the green LED if the input was high, deactivate it if the input was low
-        if (A0_input > 2048) P1OUT |= (BIT0);
+        if (A8_input > 1048) P1OUT |= (BIT0);
         else P1OUT &= ~(BIT0);
 
         //deactivate ADC
         ADCCTL0 &= ~(ADCENC);
         ADCCTL0 &= ~(ADCON);
-        // set ADC input to pin 5.1, input A1
-        ADCMCTL0 &= ~(ADCINCH3 | ADCINCH2 | ADCINCH1);
-        ADCMCTL0 |= (ADCINCH0);
+        // set ADC input to pin 5.1, input A9
+        ADCMCTL0 &= ~(ADCINCH2 | ADCINCH1);
+        ADCMCTL0 |= (ADCINCH3 | ADCINCH0);
         //activate ADC
         ADCCTL0 |= (ADCON);
         ADCCTL0 |= (ADCSC | ADCENC);
@@ -158,11 +170,11 @@ void test_pin_ADC() {
             // wait for it to finish
         }
         //read ADC output
-        A1_input = ADCMEM0;
+        A9_input = ADCMEM0;
 
         // active the red LED if the input was high, deactivate it if the input was low
-        if (A1_input > 2048) P1OUT |= (BIT6);
-        else P1OUT &= ~(BIT6);
+        if (A9_input > 1048) P6OUT |= (BIT6);
+        else P6OUT &= ~(BIT6);
 
         // there's no reason to check this every clock cycle.
         _delay_cycles(10000);
@@ -174,50 +186,50 @@ void test_pin_ADC() {
 
 }
 
-// The third function has the DAC output a square wave (to pin 3.1), instead of putting it on the port pins directly
 void test_pin_DAC() {
     // configure output port pin p3.1
     P3SEL1 |= BIT1;
     P3SEL0 |= BIT1;
 
     // disable SAC
-    SAC0OA &= ~(SACEN);
+    SAC2OA &= ~(SACEN);
     // Set SAC to buffer mode
-    SAC0OA &= ~(NSEL1);
-    SAC0OA |= (NSEL0);
+    SAC2OA &= ~(NSEL1);
+    SAC2OA |= (NSEL0);
 
-    SAC0OA &= ~(PSEL1);
-    SAC0OA |= (PSEL0);
+    // this selects the DAC as the non-inverting input
+    SAC2OA &= ~(PSEL1);
+    SAC2OA |= (PSEL0);
 
-    SAC0PGA &= ~(MSEL1);
-    SAC0PGA |= (MSEL0);
+    //enable both op-amp inputs
+    SAC2OA |= PMUXEN | NMUXEN;
+
+    SAC2PGA &= ~(MSEL1);
+    SAC2PGA |= (MSEL0);
 
     //disable DAC
-    SAC0DAC &= ~(DACEN);
+    SAC2DAC &= ~(DACEN);
     // set to primary reference voltage
-    SAC0DAC &= ~(DACSREF);
+    SAC2DAC &= ~(DACSREF);
     // set to "DAC latch loads when DACDAT is written"
-    SAC0DAC &= ~(DACLSEL1 | DACLSEL0);
+    SAC2DAC &= ~(DACLSEL1 | DACLSEL0);
 
     int debug_loop;
     debug_loop = 1;
 
-    //active SAC and DAC
-    SAC0OA |= (SACEN);
-    SAC0DAC |= (DACEN);
+    //activate the SAC Op-Amp, SAC, and DAC
+    SAC2OA |= (OAEN);
+    SAC2OA |= (SACEN);
+    SAC2DAC |= (DACEN);
     while (debug_loop == 1) {
-        SAC0DAT = 4095;
-        _delay_cycles(1000000);
-        SAC0DAT = 0;
-        _delay_cycles(1000000);
-
+        SAC2DAT = 2048;
+        _delay_cycles(4000000);
         _nop();
     }
 
 
 }
 
-// The fourth function ties the switch input to LED1
 void test_pin_switch() {
     // set p1.3 as input
     P1DIR &= ~(BIT3);
@@ -244,7 +256,7 @@ void test_pin_switch() {
 
     while (debug_loop == 1) {
         // if we read a high input at p1.3,
-        if ((P1IN & BIT3) == 1) {
+        if ((P1IN & BIT3) == BIT3) {
             // then output a signal at P1.0, which is connected to LED1.
             P1OUT |= (BIT0);
         } else {

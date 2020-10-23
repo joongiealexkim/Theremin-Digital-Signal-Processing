@@ -28,6 +28,7 @@ main.obj: ../GlobalVariables.h
 main.obj: ../test_pins.h
 main.obj: ../InitVariables.h
 main.obj: ../InitHardwareSubsystems.h
+main.obj: ../DAC.h
 
 ../main.c: 
 D:/Program\ Files/ti/ccs/ccs/ccs_base/msp430/include/msp430.h: 
@@ -57,3 +58,4 @@ D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/set
 ../test_pins.h: 
 ../InitVariables.h: 
 ../InitHardwareSubsystems.h: 
+../DAC.h: 

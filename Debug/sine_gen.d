@@ -16,6 +16,8 @@ sine_gen.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.L
 sine_gen.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/cdefs.h
 sine_gen.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_types.h
 sine_gen.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h
+sine_gen.obj: ../ConstantDefinitions.h
+sine_gen.obj: ../GlobalVariables.h
 
 ../sine_gen.c: 
 D:/Program\ Files/ti/ccs/ccs/ccs_base/msp430/include/msp430.h: 
@@ -33,3 +35,5 @@ D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/cdefs.h: 
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_types.h: 
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h: 
+../ConstantDefinitions.h: 
+../GlobalVariables.h: 

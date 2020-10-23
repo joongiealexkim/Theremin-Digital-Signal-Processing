@@ -9,38 +9,44 @@ CMD_SRCS += \
 ../lnk_msp430fr2355.cmd 
 
 C_SRCS += \
+../DAC.c \
+../InitHardwareSubsystems.c \
 ../main.c \
-../sine_gen.c \
 ../test_pins.c \
 ../test_sine_wave.c 
 
 C_DEPS += \
+./DAC.d \
+./InitHardwareSubsystems.d \
 ./main.d \
-./sine_gen.d \
 ./test_pins.d \
 ./test_sine_wave.d 
 
 OBJS += \
+./DAC.obj \
+./InitHardwareSubsystems.obj \
 ./main.obj \
-./sine_gen.obj \
 ./test_pins.obj \
 ./test_sine_wave.obj 
 
 OBJS__QUOTED += \
+"DAC.obj" \
+"InitHardwareSubsystems.obj" \
 "main.obj" \
-"sine_gen.obj" \
 "test_pins.obj" \
 "test_sine_wave.obj" 
 
 C_DEPS__QUOTED += \
+"DAC.d" \
+"InitHardwareSubsystems.d" \
 "main.d" \
-"sine_gen.d" \
 "test_pins.d" \
 "test_sine_wave.d" 
 
 C_SRCS__QUOTED += \
+"../DAC.c" \
+"../InitHardwareSubsystems.c" \
 "../main.c" \
-"../sine_gen.c" \
 "../test_pins.c" \
 "../test_sine_wave.c" 
 

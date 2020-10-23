@@ -10,8 +10,9 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./DAC.obj" \
+"./InitHardwareSubsystems.obj" \
 "./main.obj" \
-"./sine_gen.obj" \
 "./test_pins.obj" \
 "./test_sine_wave.obj" \
 "../lnk_msp430fr2355.cmd" \
@@ -158,8 +159,8 @@ Theremin\ Digital\ Signal\ Processing.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "sine_gen.obj" "test_pins.obj" "test_sine_wave.obj" 
-	-$(RM) "main.d" "sine_gen.d" "test_pins.d" "test_sine_wave.d" 
+	-$(RM) "DAC.obj" "InitHardwareSubsystems.obj" "main.obj" "test_pins.obj" "test_sine_wave.obj" 
+	-$(RM) "DAC.d" "InitHardwareSubsystems.d" "main.d" "test_pins.d" "test_sine_wave.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

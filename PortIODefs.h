@@ -4,38 +4,40 @@
  *  Created on: Sep 24, 2020
  *      Author: harry
  */
-
+#include <msp430.h>
 #ifndef PORTIODEFS_H_
 #define PORTIODEFS_H_
 
-#define SWITCH_PORT P1IN
-#define START_SWITCH_BIT  0x01    //Switch on Port 1 Bit 0
+/**
+ * ADC Ports
+ * The two ADC input pins that will be used are p5.0 and p5.1.
+ * These correspond to input A8 and A9 respectively.
+ */
+#define ADC_PITCH_PORT_SELECT_1         P5SEL1
+#define ADC_PITCH_PORT_SELECT_0         P5SEL0
+#define ADC_VOLUME_PORT_SELECT_1        P5SEL1
+#define ADC_VOLUME_PORT_SELECT_0        P5SEL0
 
+// Pitch input at pin 5.0, Volume input at pin 5.1
+#define ADC_PITCH_INPUT_PIN             BIT0
+#define ADC_VOLUME_INPUT_PIN            BIT1
 
-//Constant define section:
-#define BITS_IN_TRANSMISSION  32
-#define TRANSMIT_PIN          B8_5(P1OUT)
-#define TRANSMIT_PORT         P1
-#define TRANSMIT_PORT_DIR     P1DIR
-#define TRANSMIT_BIT          5
+// Configures the selected pins as ADC inputs
+#define CONFIGURE_PITCH_INPUT_PIN       ADC_PITCH_PORT_SELECT_1 |= ADC_PITCH_INPUT_PIN; ADC_PITCH_PORT_SELECT_0 |= ADC_PITCH_INPUT_PIN
+#define CONFIGURE_VOLUME_INPUT_PIN      ADC_VOLUME_PORT_SELECT_1 |= ADC_VOLUME_INPUT_PIN; ADC_VOLUME_PORT_SELECT_0 |= ADC_VOLUME_INPUT_PIN
 
-#define TX_RCV_MODE			  B8_6(P1OUT)
-#define TX_RCV_PORT_DIR       P1DIR
-#define TX_RCV_BIT            6
+/**
+ * DAC Port
+ * The DAC output pin will be p3.1.
+ * This corresponds to the DAC on SAC2.
+ */
+#define DAC_OUTPUT_PORT_SELECT_1        P3SEL1
+#define DAC_OUTPUT_PORT_SELECT_0        P3SEL0
 
-//Establish bits and registers for receiver pins
-#define RCV_CAPTURE_BIT0      0
-#define RCV_CAPTURE_BIT1      1
-#define RCV_PORT_SEL          P2SEL
-#define RCV_PORT_SEL2         P2SEL2
+#define DAC_OUTPUT_PIN                  BIT1
 
-#define DEBUG_LED             B8_0(P1OUT)
-#define LED_PORT_DIR          P1DIR
-#define LED_BIT               0
-#define LED_ON                HIGH
-#define LED_OFF               LOW
-// Note that the tx_rcv mode should be high to receive.
-
+// Configures the selected pin as DAC output
+#define CONFIGURE_DAC_OUTPUT_PIN        DAC_OUTPUT_PORT_SELECT_1 |= DAC_OUTPUT_PIN; DAC_OUTPUT_PORT_SELECT_0 |= DAC_OUTPUT_PIN
 
 
 #endif /* PORTIODEFS_H_ */

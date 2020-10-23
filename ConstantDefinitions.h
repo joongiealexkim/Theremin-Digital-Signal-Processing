@@ -8,19 +8,14 @@
 #ifndef CONSTANTDEFINITIONS_H_
 #define CONSTANTDEFINITIONS_H_
 
-#define TICK_INTERVAL 100 // This might be a timer value etc.
-#define MAX_ADC_VALUE 1023 // Also for adc
-#define BUTTON_TRIES  5    // Part of some UI
+#define FIXED_NOTE_FREQ     440 // A4 = 440 Hz
+#define MIN_FREQ            220 // A3 = 220 Hz
+#define MAX_FREQ            1760 // A6 = 1760 Hz
+#define FREQ_BASE           1.05946309 // a = 2^(1/12), the twelfth root of two, to 8 decimal places.
+#define TARGET_MIN_FREQ     14080
 
-//The following defines are for bit width definitions
-//The underlying assumptions are"
-//The capture timers are updated with a 1uS resolution
-//A full bit time is 1 mS nominal
-#define VALID_HALF_BIT_MIN    450
-#define VALID_HALF_BIT_MAX    550
-#define VALID_FULL_BIT_MIN    950
-#define VALID_FULL_BIT_MAX   1050
-#define MISSING_EDGE_TIMEOUT 1200
+int freq_step_range;
+#define SINE_ARRAY_LENGTH   64
 
 
 #endif /* CONSTANTDEFINITIONS_H_ */
