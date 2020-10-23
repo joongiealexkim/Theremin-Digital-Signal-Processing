@@ -51,6 +51,9 @@ void init_DAC() {
     DISABLE_DAC;
     DAC_SET_PRIMARY_REF_VOLTAGE;
     DAC_LATCH_LOAD_ON_WRITE;
+
+    ENABLE_OPAMP;
+    ENABLE_DAC;
 }
 
 void init_Switch() {

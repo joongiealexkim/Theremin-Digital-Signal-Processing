@@ -22,13 +22,15 @@ main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/i
 main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h
 main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/string.h
 main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/setjmp.h
-main.obj: ../ConstantDefinitions.h
+main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdio.h
+main.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdarg.h
 main.obj: ../PortIODefs.h
+main.obj: ../ConstantDefinitions.h
 main.obj: ../GlobalVariables.h
-main.obj: ../test_pins.h
 main.obj: ../InitVariables.h
 main.obj: ../InitHardwareSubsystems.h
 main.obj: ../DAC.h
+main.obj: ../test_pins.h
 
 ../main.c: 
 D:/Program\ Files/ti/ccs/ccs/ccs_base/msp430/include/msp430.h: 
@@ -52,10 +54,12 @@ D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/mac
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h: 
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/string.h: 
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/setjmp.h: 
-../ConstantDefinitions.h: 
+D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdio.h: 
+D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdarg.h: 
 ../PortIODefs.h: 
+../ConstantDefinitions.h: 
 ../GlobalVariables.h: 
-../test_pins.h: 
 ../InitVariables.h: 
 ../InitHardwareSubsystems.h: 
 ../DAC.h: 
+../test_pins.h: 

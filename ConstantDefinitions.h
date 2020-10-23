@@ -14,8 +14,12 @@
 #define FREQ_BASE           1.05946309 // a = 2^(1/12), the twelfth root of two, to 8 decimal places.
 #define TARGET_MIN_FREQ     14080
 
-int freq_step_range;
 #define SINE_ARRAY_LENGTH   64
+
+double min_freq_steps; //the number of half-steps away the minimum frequency is from the fixed note frequency
+double max_freq_steps; //the number of half-steps away the maximum frequency is from the fixed note frequency
+int freq_step_range;
+
 
 
 #endif /* CONSTANTDEFINITIONS_H_ */

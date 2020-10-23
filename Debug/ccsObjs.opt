@@ -1,1 +1,1 @@
-"./DAC.obj" "./InitHardwareSubsystems.obj" "./main.obj" "./test_pins.obj" "./test_sine_wave.obj" "../lnk_msp430fr2355.cmd" -lfrwp_init.a -llibc.a 
+"./ADC.obj" "./DAC.obj" "./InitHardwareSubsystems.obj" "./main.obj" "./test_pins.obj" "./test_sine_wave.obj" "../lnk_msp430fr2355.cmd" -lfrwp_init.a -llibc.a 

@@ -39,5 +39,13 @@
 // Configures the selected pin as DAC output
 #define CONFIGURE_DAC_OUTPUT_PIN        DAC_OUTPUT_PORT_SELECT_1 |= DAC_OUTPUT_PIN; DAC_OUTPUT_PORT_SELECT_0 |= DAC_OUTPUT_PIN
 
+/**
+ * Switch port
+ * This port will be for selecting the operation mode
+ * And will be a simple GPIO on pin 1.3
+ */
+#define SET_SWITCH_PIN_AS_INPUT         P1DIR &= ~(BIT3)
+#define SET_SWITCH_PIN_AS_GPIO          P1SEL1 &= ~(BIT3);P1SEL0 &= ~(BIT3)
+
 
 #endif /* PORTIODEFS_H_ */

@@ -10,100 +10,32 @@
 //No function should go beyond 1 readable page.
 //Check according to MISRA
 
-#define PIN_TEST
+//#define PIN_TEST
 #define DEBUG_VERSION
 #include <msp430.h>  //This is a standard include
 #include "useful.h"
-#include "ConstantDefinitions.h"
+#include <math.h>
+#include <stdio.h>
+/* External Functions
+ *
+ */
 #include "PortIODefs.h"
+#include "ConstantDefinitions.h"
 #include "GlobalVariables.h"
+#include "InitVariables.h"
+#include "InitHardwareSubsystems.h"
+#include <DAC.h>
+
 
 #ifdef DEBUG_VERSION
 #include "test_pins.h"
 #endif
 
-/* External Functions
- *
- */
-#include "InitVariables.h"
-#include "InitHardwareSubsystems.h"
-#include <DAC.h>
 
 // Function Prototypes
 void init_CS();
 void init_GlobalVariables(void);
 void init_Constants(void);
-
-// The sine lookup table.
-// I wanted to put this in constant definitions, but this caused a linking error because it would be defined multiple times.
-// For the life of me, I can't seem to declare this and find a good place to define it.
-// Find a good home for this, some day.
-const double SinusoidArray[64] = {
-1,
-0.995184727,
-0.98078528,
-0.956940336,
-0.923879533,
-0.881921264,
-0.831469612,
-0.773010453,
-0.707106781,
-0.634393284,
-0.555570233,
-0.471396737,
-0.382683432,
-0.290284677,
-0.195090322,
-0.09801714,
-6.12574E-17,
--0.09801714,
--0.195090322,
--0.290284677,
--0.382683432,
--0.471396737,
--0.555570233,
--0.634393284,
--0.707106781,
--0.773010453,
--0.831469612,
--0.881921264,
--0.923879533,
--0.956940336,
--0.98078528,
--0.995184727,
--1,
--0.995184727,
--0.98078528,
--0.956940336,
--0.923879533,
--0.881921264,
--0.831469612,
--0.773010453,
--0.707106781,
--0.634393284,
--0.555570233,
--0.471396737,
--0.382683432,
--0.290284677,
--0.195090322,
--0.09801714,
--1.83772E-16,
-0.09801714,
-0.195090322,
-0.290284677,
-0.382683432,
-0.471396737,
-0.555570233,
-0.634393284,
-0.707106781,
-0.773010453,
-0.831469612,
-0.881921264,
-0.923879533,
-0.956940336,
-0.98078528,
-0.995184727,
-};
 
 
 /**
@@ -115,14 +47,17 @@ int main(void)
 
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
                                             // to activate previously configured port settings
-    init_CS();
+
+    //Initialize variables
     init_Constants();
-
     init_GlobalVariables();
-    init_HardwareSubsystems();
 
-	//Initialize variables
-	//Initialize hardware
+    //Initialize hardware
+    init_CS();
+    init_HardwareSubsystems();
+    ConfigureTimerB0();
+    ConfigureTimerB1();
+
 	//Finally enable interrupts
     __enable_interrupt();
 
@@ -133,9 +68,11 @@ int main(void)
     test_pin_switch();
 #endif
 
+    double scaled_result;
 	while(1){
 		//Main Loop
-
+	    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;
+	    next_sine_value = (int) scaled_result + 2047.5; //Our output needs to be between 0 and 4095, inclusive
 	}
 	return 0;
 }
@@ -172,8 +109,8 @@ void init_CS(void) {
 }
 
 void init_GlobalVariables(void) {
-    volume_range_data = 2048;
-    pitch_range_data = 2048;
+    volume_range_data = 4095;
+    pitch_range_data = 4095;
     current_array_index = 0;
 
     DAC_period = calc_period(calc_freq(pitch_range_data));
@@ -182,17 +119,13 @@ void init_GlobalVariables(void) {
     // BUT that number will then vary from 0-4096, and that's too high because we're going to be adding the DC offset
     // SO we divide by 2 before casting it back to an int
     // the result will be a 12-bit number.
-    double scaled_result;
-    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;
-    next_sine_value = (unsigned int) scaled_result + 2047.5; //Our output needs to be between 0 and 4095, inclusive
+
 
 }
 
 void init_Constants(void) {
-    double min_freq_steps; //the number of half-steps away the minimum frequency is from the fixed note frequency
-    double max_freq_steps; //the number of half-steps away the maximum frequency is from the fixed note frequency
-    min_freq_steps = log(MIN_FREQ/FIXED_NOTE_FREQ)/log(FREQ_BASE);
-    max_freq_steps = log(MAX_FREQ/FIXED_NOTE_FREQ)/log(FREQ_BASE);
+    min_freq_steps = log(MIN_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
+    max_freq_steps = log(MAX_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     freq_step_range = (int) (max_freq_steps - min_freq_steps);
 
 }

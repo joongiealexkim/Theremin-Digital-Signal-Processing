@@ -10,6 +10,7 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
 "./DAC.obj" \
 "./InitHardwareSubsystems.obj" \
 "./main.obj" \
@@ -159,8 +160,8 @@ Theremin\ Digital\ Signal\ Processing.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "DAC.obj" "InitHardwareSubsystems.obj" "main.obj" "test_pins.obj" "test_sine_wave.obj" 
-	-$(RM) "DAC.d" "InitHardwareSubsystems.d" "main.d" "test_pins.d" "test_sine_wave.d" 
+	-$(RM) "ADC.obj" "DAC.obj" "InitHardwareSubsystems.obj" "main.obj" "test_pins.obj" "test_sine_wave.obj" 
+	-$(RM) "ADC.d" "DAC.d" "InitHardwareSubsystems.d" "main.d" "test_pins.d" "test_sine_wave.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
