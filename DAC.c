@@ -13,19 +13,17 @@
 
 unsigned int calc_freq(unsigned int distance_data) {
     double n;
-    double freq;
 
+    long l = (long) distance_data;
     // We develop our linear interpolation within our frequency domain and multiply it by our distance_data
-    n = (double) ((distance_data * freq_step_range) >> 12)+(min_freq_steps);
+    n = (double) (((l+1) * (long) freq_step_range) >> 12)+(min_freq_steps);
         // note: bit shifting right by 12 places is equivalent to dividing by 4096,
 
     // now we can go back and calculate the corresponding frequency
-    freq = FIXED_NOTE_FREQ * pow((double) FREQ_BASE, n);
-    return (unsigned int) freq;
+    return (unsigned int) FIXED_NOTE_FREQ * pow((double) FREQ_BASE, n);
 }
 
 unsigned int calc_period(unsigned int frequency) {
-    double period;
 
     if (frequency < MIN_FREQ || frequency > MAX_FREQ) {
         return 0;
@@ -39,8 +37,7 @@ unsigned int calc_period(unsigned int frequency) {
     else samps_per_cycle = 8;
 
     // The period is (clock speed) / (frequency * samples per cycle)
-    period =  (16000000 / (frequency * samps_per_cycle));
-    return (unsigned int) period;
+    return (unsigned int) (16000000 / (frequency * samps_per_cycle));
 }
 
 void ConfigureTimerB0(void)

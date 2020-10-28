@@ -6,6 +6,10 @@
  */
 
 #include "ADC.h"
+#include <msp430.h>
+#include <math.h>
+#include "ConstantDefinitions.h"
+#include "GlobalVariables.h"
 
 void ConfigureTimerB1(void)
 {

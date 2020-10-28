@@ -48,6 +48,18 @@ int main(void)
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
                                             // to activate previously configured port settings
 
+#ifdef DEBUG_VERSION // Simply sets p1.2 and p1.1 as outputs; the intention is to connect them to the ADC inputs to guarantee that the ADC is reading values
+    P1DIR |= BIT2;
+    P1OUT |= BIT2;
+    P1SEL1 &= ~BIT2;
+    P1SEL0 &= ~BIT2;
+
+    P1DIR |= BIT1;
+    P1OUT |= BIT1;
+    P1SEL1 &= ~BIT1;
+    P1SEL0 &= ~BIT1;
+#endif
+
     //Initialize variables
     init_Constants();
     init_GlobalVariables();
@@ -57,6 +69,8 @@ int main(void)
     init_HardwareSubsystems();
     ConfigureTimerB0();
     ConfigureTimerB1();
+
+
 
 	//Finally enable interrupts
     __enable_interrupt();
@@ -73,6 +87,8 @@ int main(void)
 		//Main Loop
 	    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;
 	    next_sine_value = (int) scaled_result + 2047.5; //Our output needs to be between 0 and 4095, inclusive
+	    DAC_period = calc_period(calc_freq(pitch_range_data));
+
 	}
 	return 0;
 }
@@ -109,8 +125,8 @@ void init_CS(void) {
 }
 
 void init_GlobalVariables(void) {
-    volume_range_data = 4095;
-    pitch_range_data = 4095;
+    volume_range_data = 2048;
+    pitch_range_data = 2048;
     current_array_index = 0;
 
     DAC_period = calc_period(calc_freq(pitch_range_data));
