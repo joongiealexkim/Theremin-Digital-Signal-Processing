@@ -50,11 +50,12 @@
  *
  * Arguments:
  * unsigned int distance_data - the 12-bit number corresponding to the reading from the optical sensor assigned to pitch.
+ * char discrete - if discrete is non-zero, then n will be an integer, corresponding to a frequency on the equal tempered scale. If zero, n will be non-integer and thus freely interpolate between all possible frequencies.
  *
  * Returns:
  * The frequency that corresponds to the value of range_data, interpolated within the frequency domain.
  */
-unsigned int calc_freq(unsigned int distance_data);
+unsigned int calc_freq(unsigned int distance_data, char discrete);
 
 /*
  * Calculates the period for which DAC will update values.

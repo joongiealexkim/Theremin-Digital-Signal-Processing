@@ -11,13 +11,19 @@
 #include "ConstantDefinitions.h"
 #include "GlobalVariables.h"
 
-unsigned int calc_freq(unsigned int distance_data) {
+unsigned int calc_freq(unsigned int distance_data, char discrete) {
     double n;
 
     long l = (long) distance_data;
     // We develop our linear interpolation within our frequency domain and multiply it by our distance_data
-    n = (double) (((l+1) * (long) freq_step_range) >> 12)+(min_freq_steps);
+    if (discrete) {
+        n = (double) (((l+1) * freq_step_range) >> 12)+(min_freq_steps);
         // note: bit shifting right by 12 places is equivalent to dividing by 4096,
+    }
+    else {
+        n = (double) (((l+1) * freq_step_range) / 4096)+(min_freq_steps);
+        // floating point division is awfully slow. I really would like to improve this somehow.
+    }
 
     // now we can go back and calculate the corresponding frequency
     return (unsigned int) FIXED_NOTE_FREQ * pow((double) FREQ_BASE, n);

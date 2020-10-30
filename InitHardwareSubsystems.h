@@ -10,14 +10,15 @@
 
 #include "DAC.h"
 #include "ADC.h"
+#include "PortIODefs.h"
 
 
-#define ENABLE_SWITCH_PULL_RESISTOR     P1REN |= BIT3
-#define SELECT_PULL_DOWN_RESISTOR       P1OUT &= ~BIT3
 
 
 //Initialize ADC and DAC
 void init_HardwareSubsystems();
+
+void init_Sensor_GPIO();
 
 void init_ADC();
 

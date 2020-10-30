@@ -8,6 +8,9 @@
 #ifndef CONSTANTDEFINITIONS_H_
 #define CONSTANTDEFINITIONS_H_
 
+#define DISCRETE            1
+#define CONTINUOUS          0
+
 #define FIXED_NOTE_FREQ     440 // A4 = 440 Hz
 #define MIN_FREQ            220 // A3 = 220 Hz
 #define MAX_FREQ            1760 // A6 = 1760 Hz

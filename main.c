@@ -87,7 +87,11 @@ int main(void)
 		//Main Loop
 	    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;
 	    next_sine_value = (int) scaled_result + 2047.5; //Our output needs to be between 0 and 4095, inclusive
-	    DAC_period = calc_period(calc_freq(pitch_range_data));
+
+	    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
+        else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
+
+
 
 	}
 	return 0;
@@ -129,7 +133,8 @@ void init_GlobalVariables(void) {
     pitch_range_data = 2048;
     current_array_index = 0;
 
-    DAC_period = calc_period(calc_freq(pitch_range_data));
+    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
+    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
 
     // the volume data is a 12-bit number, so we can cast it to double and multiply it by the sine_function
     // BUT that number will then vary from 0-4096, and that's too high because we're going to be adding the DC offset
@@ -142,7 +147,7 @@ void init_GlobalVariables(void) {
 void init_Constants(void) {
     min_freq_steps = log(MIN_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     max_freq_steps = log(MAX_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
-    freq_step_range = (int) (max_freq_steps - min_freq_steps);
+    freq_step_range = (long) (max_freq_steps - min_freq_steps);
 
 }
 

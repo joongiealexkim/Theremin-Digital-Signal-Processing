@@ -10,15 +10,16 @@
 #include <math.h>
 #include "ConstantDefinitions.h"
 #include "GlobalVariables.h"
+#include "PortIODefs.h"
 
 void ConfigureTimerB1(void)
 {
-    // Stop the Timer B0 and clear it.
+    // Stop the Timer B1 and clear it.
     TB1CTL = (MC_0 | TBCLR);
 
     // Configure the timer, including input clock select, input clock divide,
     // and starting the timer in up mode.
-    TB1CTL |= (TBSSEL_2 | ID_0 | MC_1);
+    TB1CTL |= (TBSSEL_2 | ID_3 | MC_1);
     // Initialize TB0CCR0.
     TB1CCR0 = SENSOR_SAMPLE_PERIOD;
 
@@ -32,6 +33,7 @@ void ConfigureTimerB1(void)
 // Interrupt service routine for CCIFG0
 __interrupt void TimerB1ISR(void)
 {
+
     // okay, so the ADC needs to:
     TURN_OFF_ADC;
     SET_ADC_INPUT_PITCH;
@@ -47,13 +49,9 @@ __interrupt void TimerB1ISR(void)
 
     while (ADC_IS_BUSY);
 
+    TURN_OFF_SENSOR; // now that we've read the data, we can turn off the sensor.
+
     volume_range_data = ADC_DATA;
 
-    // now we can turn off the sensors, but...
-    // then we gotta turn them on again to begin sampling once more.
-
-    // i got an idea: send a rising edge to the sensors at the end fo the interrupt, then read them and unset them at the beginning of the interrupt!
-    // i'm a genius!
-
-
+    TURN_ON_SENSOR; // now we want it to start reading the next sample, so turn on the sensor.
 }

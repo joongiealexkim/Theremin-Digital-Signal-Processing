@@ -8,9 +8,16 @@
 #include "PortIODefs.h"
 
 void init_HardwareSubsystems() {
+    init_Sensor_GPIO();
     init_ADC();
     init_DAC();
     init_Switch();
+}
+
+void init_Sensor_GPIO() {
+    SET_SENSOR_PIN_AS_OUTPUT;
+    SET_SENSOR_PIN_AS_GPIO;
+    TURN_OFF_SENSOR;
 }
 
 void init_ADC() {
@@ -60,5 +67,5 @@ void init_Switch() {
     SET_SWITCH_PIN_AS_INPUT;
     SET_SWITCH_PIN_AS_GPIO;
     ENABLE_SWITCH_PULL_RESISTOR;
-    SELECT_PULL_DOWN_RESISTOR;
+    SWITCH_PULL_DOWN_RESISTOR;
 }
