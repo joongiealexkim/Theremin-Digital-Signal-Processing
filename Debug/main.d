@@ -32,7 +32,7 @@ main.obj: ../InitHardwareSubsystems.h
 main.obj: ../DAC.h
 main.obj: ../ADC.h
 main.obj: ../PortIODefs.h
-main.obj: ../test_pins.h
+main.obj: D:/Documents/4th\ Year\ UVA/1st\ Semester/Capstone/Theremin\ Digital\ Signal\ Processing/Theremin\ Digital\ Signal\ Processing/test_functions.h
 
 ../main.c: 
 D:/Program\ Files/ti/ccs/ccs/ccs_base/msp430/include/msp430.h: 
@@ -66,4 +66,4 @@ D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/std
 ../DAC.h: 
 ../ADC.h: 
 ../PortIODefs.h: 
-../test_pins.h: 
+D:/Documents/4th\ Year\ UVA/1st\ Semester/Capstone/Theremin\ Digital\ Signal\ Processing/Theremin\ Digital\ Signal\ Processing/test_functions.h: 

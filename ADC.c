@@ -17,15 +17,17 @@ void ConfigureTimerB1(void)
     // Stop the Timer B1 and clear it.
     TB1CTL = (MC_0 | TBCLR);
 
+    // set Capture/Compare Register 0 to Compare mode
+    TB1CCTL0 &= ~(CAP);
+
+    // Initialize TB1CCR0.
+    TB1CCR0 = SENSOR_SAMPLE_PERIOD;
+
     // Configure the timer, including input clock select, input clock divide,
     // and starting the timer in up mode.
     TB1CTL |= (TBSSEL_2 | ID_3 | MC_1);
-    // Initialize TB0CCR0.
-    TB1CCR0 = SENSOR_SAMPLE_PERIOD;
 
-    // set Timer B0 to Compare mode
-    TB1CCTL0 &= ~(CAP);
-    // Enable TB0CCR0 Compare/Capture Interrupt Flag (CCIFG0)
+    // Enable TB1CCR0 Compare/Capture Interrupt Flag (CCIFG0)
     TB1CCTL0 |= CCIE;
 }
 

@@ -32,7 +32,7 @@
 #define SET_ADC_INPUT_VOLUME            ADCMCTL0 &= ~(ADCINCH2 | ADCINCH1); ADCMCTL0 |= (ADCINCH3 | ADCINCH0)
 #define ADC_IS_BUSY                     ADCCTL1 & ADCBUSY
 
-#define SENSOR_SAMPLE_PERIOD            40000 // (16 MHz/8) / 40000 cycles = 50 Hz, or 50 samples per second
+#define SENSOR_SAMPLE_PERIOD            60000 // (16 MHz/8) / 40000 cycles = 50 Hz, or 50 samples per second
 
 void ConfigureTimerB1();
 

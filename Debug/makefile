@@ -14,8 +14,7 @@ ORDERED_OBJS += \
 "./DAC.obj" \
 "./InitHardwareSubsystems.obj" \
 "./main.obj" \
-"./test_pins.obj" \
-"./test_sine_wave.obj" \
+"./test_functions.obj" \
 "../lnk_msp430fr2355.cmd" \
 $(GEN_CMDS__FLAG) \
 -lfrwp_init.a \
@@ -160,8 +159,8 @@ Theremin\ Digital\ Signal\ Processing.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC.obj" "DAC.obj" "InitHardwareSubsystems.obj" "main.obj" "test_pins.obj" "test_sine_wave.obj" 
-	-$(RM) "ADC.d" "DAC.d" "InitHardwareSubsystems.d" "main.d" "test_pins.d" "test_sine_wave.d" 
+	-$(RM) "ADC.obj" "DAC.obj" "InitHardwareSubsystems.obj" "main.obj" "test_functions.obj" 
+	-$(RM) "ADC.d" "DAC.d" "InitHardwareSubsystems.d" "main.d" "test_functions.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

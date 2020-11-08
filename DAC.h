@@ -23,6 +23,8 @@
 #define DAC_SET_PRIMARY_REF_VOLTAGE     SAC_DAC_RGSTR &= ~(DACSREF)
 #define DAC_LATCH_LOAD_ON_WRITE         SAC_DAC_RGSTR &= ~(DACLSEL1 | DACLSEL0)
 
+double scaled_result;
+int scaled_result_int;
 
 /*
  * Given an input distance measurement, returns the frequency of the note that corresponds to that distance.
@@ -37,7 +39,7 @@
  * We calculate n by doing the following:
  * We define the minimum and maximum frequency that our system will output.
  * We can solve the above formula for n, giving us the number of steps that correspond to the minimum and maximum frequency.
- * That calculation is done in the initialization function, init_sine_gen().
+ * That calculation is done in the initialization function, init_Constants(), giving us the frequency step range.
  *
  * Since our distance data must be between 0 and 4095 (inclusive),
  * we say that a value of 0 will correspond to the minimum frequency,

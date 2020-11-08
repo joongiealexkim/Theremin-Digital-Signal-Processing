@@ -1,5 +1,5 @@
 /*
- * test_pins.h
+ * test_functions.h
  *
  *  Created on: Oct 2, 2020
  *      Author: user
@@ -8,8 +8,13 @@
  *  NOTE: these functions require a debugger to be used! They all contain infinite loops that can only be broken
  *  by modifying the loop variable with a debugger.
  */
-#ifndef TEST_PINS_H
-#define TEST_PINS_H
+#ifndef TEST_FUNCTIONS_H
+#define TEST_FUNCTIONS_H
+
+//these macros are used, along with ConfigureTimerB2, to capture the time at which they are called.
+//They are all on the 16 MHz clock!
+#define CAPTURE_TIME_0      TB2CCTL0 ^= CCIS0
+#define CAPTURE_TIME_1      TB2CCTL1 ^= CCIS0
 
 ; //er... i dont know why, but my code won't compile on unless I put this semicolon here. Using Code Composer Studio 10.1.1
 
@@ -39,4 +44,10 @@ void test_pin_DAC();
  */
 void test_pin_switch();
 
-#endif /* TEST_PINS_H_ */
+/*
+ * This is to test the timing of computation.
+ * Several are additionally defined in order to retrieve the data.
+ */
+void ConfigureTimerB2();
+
+#endif /* TEST_FUNCTIONS_H_ */

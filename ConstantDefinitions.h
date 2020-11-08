@@ -21,7 +21,7 @@
 
 double min_freq_steps; //the number of half-steps away the minimum frequency is from the fixed note frequency
 double max_freq_steps; //the number of half-steps away the maximum frequency is from the fixed note frequency
-int freq_step_range;
+unsigned int freq_step_range;
 
 
 

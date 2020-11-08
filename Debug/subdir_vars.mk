@@ -13,47 +13,41 @@ C_SRCS += \
 ../DAC.c \
 ../InitHardwareSubsystems.c \
 ../main.c \
-../test_pins.c \
-../test_sine_wave.c 
+../test_functions.c 
 
 C_DEPS += \
 ./ADC.d \
 ./DAC.d \
 ./InitHardwareSubsystems.d \
 ./main.d \
-./test_pins.d \
-./test_sine_wave.d 
+./test_functions.d 
 
 OBJS += \
 ./ADC.obj \
 ./DAC.obj \
 ./InitHardwareSubsystems.obj \
 ./main.obj \
-./test_pins.obj \
-./test_sine_wave.obj 
+./test_functions.obj 
 
 OBJS__QUOTED += \
 "ADC.obj" \
 "DAC.obj" \
 "InitHardwareSubsystems.obj" \
 "main.obj" \
-"test_pins.obj" \
-"test_sine_wave.obj" 
+"test_functions.obj" 
 
 C_DEPS__QUOTED += \
 "ADC.d" \
 "DAC.d" \
 "InitHardwareSubsystems.d" \
 "main.d" \
-"test_pins.d" \
-"test_sine_wave.d" 
+"test_functions.d" 
 
 C_SRCS__QUOTED += \
 "../ADC.c" \
 "../DAC.c" \
 "../InitHardwareSubsystems.c" \
 "../main.c" \
-"../test_pins.c" \
-"../test_sine_wave.c" 
+"../test_functions.c" 
 
 

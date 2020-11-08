@@ -18,6 +18,7 @@ DAC.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/in
 DAC.obj: D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h
 DAC.obj: ../ConstantDefinitions.h
 DAC.obj: ../GlobalVariables.h
+DAC.obj: ../PortIODefs.h
 
 ../DAC.c: 
 D:/Documents/4th\ Year\ UVA/1st\ Semester/Capstone/Theremin\ Digital\ Signal\ Processing/Theremin\ Digital\ Signal\ Processing/DAC.h: 
@@ -37,3 +38,4 @@ D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/mac
 D:/Program\ Files/ti/ccs/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_limits.h: 
 ../ConstantDefinitions.h: 
 ../GlobalVariables.h: 
+../PortIODefs.h: 

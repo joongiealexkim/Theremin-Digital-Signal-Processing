@@ -1,12 +1,12 @@
 /*
- * test_pins.c
+ * test_functions.c
  *
  *  Created on: Oct 2, 2020
  *      Author: user
  */
 
 #include <msp430.h>
-#include "test_pins.h"
+#include <test_functions.h>
 
 
 void test_pin_all_square() {
@@ -267,4 +267,27 @@ void test_pin_switch() {
         _delay_cycles(10000);
         _nop();
     }
+}
+
+void ConfigureTimerB2() {
+    // Stop the Timer B2 and clear it.
+    TB2CTL = (MC_0 | TBCLR);
+
+    // synchronize capture source, enable capture on both rising and falling edge, and initialize CCIS bit
+    // Do this for cap/comp register 0 and 1
+    TB2CCTL0 |= (SCS | CM_3 | CCIS_2);
+    TB2CCTL1 |= (SCS | CM_3 | CCIS_2);
+
+
+    // set Capture/Compare Register 0 to Capture mode
+    TB2CCTL0 |= CAP;
+    TB2CCTL1 |= CAP;
+
+    // Configure the timer, including input clock select, input clock divide,
+    // and starting the timer in up mode.
+    TB2CTL |= (TBSSEL_2 | ID_0 | MC_1);
+
+
+    // Enable TB0CCR0 Compare/Capture Interrupt Flag (CCIFG0)
+    TB2CCTL0 |= CCIE;
 }

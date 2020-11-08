@@ -28,7 +28,7 @@
 
 
 #ifdef DEBUG_VERSION
-#include "test_pins.h"
+#include <test_functions.h>
 #endif
 
 
@@ -42,7 +42,7 @@ void init_Constants(void);
  * main.c
  */
 int main(void)
-{
+    {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
     PM5CTL0 &= ~LOCKLPM5;                   // Disable the GPIO power-on default high-impedance mode
@@ -67,8 +67,12 @@ int main(void)
     //Initialize hardware
     init_CS();
     init_HardwareSubsystems();
-    ConfigureTimerB0();
-    ConfigureTimerB1();
+    ConfigureTimerB0(); // used for the DAC interrupt
+    ConfigureTimerB1(); // used for the ADC interrupt
+
+#ifdef DEBUG_VERSION
+
+#endif
 
 
 
@@ -83,14 +87,15 @@ int main(void)
 #endif
 
     double scaled_result;
+    int scaled_result_int;
 	while(1){
 		//Main Loop
-	    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;
-	    next_sine_value = (int) scaled_result + 2047.5; //Our output needs to be between 0 and 4095, inclusive
+//	    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
+//	    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
 
-	    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
-        else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
-
+	    // doesnt work in interrupt
+	    scaled_result_int = (int) (volume_range_data * SinusoidArray[current_array_index]) >> 1;
+	    next_sine_value = scaled_result_int + 2047;
 
 
 	}
