@@ -289,5 +289,7 @@ void ConfigureTimerB2() {
 
 
     // Enable TB0CCR0 Compare/Capture Interrupt Flag (CCIFG0)
-    TB2CCTL0 |= CCIE;
+//    TB2CCTL0 |= CCIE;
+//
+//    TB2CCTL1 |= CCIE;
 }

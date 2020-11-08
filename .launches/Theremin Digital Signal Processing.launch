@@ -4,7 +4,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.MSP430FR2355.ccxml.TI MSP430 USB1/MSP430" value="${build_artifact:Theremin Digital Signal Processing}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.MSP430FR2355.ccxml.TI MSP430 USB1/MSP430" value="Theremin Digital Signal Processing"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:Theremin Digital Signal Processing}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.MSP430FR2355.ccxml.TI MSP430 USB1/MSP430" value="C:\Users\apple\Documents\Theremin Digital Signal Processing\Debug\Theremin Digital Signal Processing.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.MSP430FR2355.ccxml.TI MSP430 USB1/MSP430" value="C:\Users\apple\Desktop\Theremin Digital Signal Processing\Debug\Theremin Digital Signal Processing.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/Theremin Digital Signal Processing"/>
 </listAttribute>

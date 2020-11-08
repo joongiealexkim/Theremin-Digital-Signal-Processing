@@ -71,7 +71,7 @@ int main(void)
     ConfigureTimerB1(); // used for the ADC interrupt
 
 #ifdef DEBUG_VERSION
-
+    ConfigureTimerB2();
 #endif
 
 
@@ -94,8 +94,8 @@ int main(void)
 //	    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
 
 	    // doesnt work in interrupt
-	    scaled_result_int = (int) (volume_range_data * SinusoidArray[current_array_index]) >> 1;
-	    next_sine_value = scaled_result_int + 2047;
+//	    scaled_result_int = (int) (volume_range_data * SinusoidArray[current_array_index]) >> 1;
+//	    next_sine_value = scaled_result_int + 2047;
 
 
 	}

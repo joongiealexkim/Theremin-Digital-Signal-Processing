@@ -87,6 +87,12 @@ unsigned int calc_period(unsigned int frequency);
 
 void ConfigureTimerB0();
 
+extern const int discretePeriod[];
+
+extern const int powTable[];
+
+extern const int SinusoidArrayInt[];
+
 extern const double SinusoidArray[];
 
 #endif /* DAC_H_ */
