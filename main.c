@@ -154,9 +154,9 @@ void init_Constants(void) {
     min_freq_steps = log(MIN_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     max_freq_steps = log(MAX_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     freq_step_range = (long) (max_freq_steps - min_freq_steps);
-    HARDWARERANGE = _IQ13(0.00024414); // (1/4096.0) workaround to get 1/4096
-    FREQBASE = _IQ24(FREQ_BASE);// rename
-    FIXEDNOTEFREQ = _IQ20(FIXED_NOTE_FREQ); // rename
+    hardware_range = _IQ13(0.00024414); // (1/4096.0) workaround to get 1/4096
+    freq_base_fixed = _IQ24(FREQ_BASE);// rename
+    fixed_note_freq_fixed = _IQ16(FIXED_NOTE_FREQ); // rename
 
 }
 

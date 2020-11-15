@@ -22,7 +22,7 @@ unsigned int calc_freq(unsigned int distance_data, char discrete) {
     unsigned long volatile l2;
 
     //hardware multiplication
-    MPY32CTL0 |= MPYM_0;
+    //MPY32CTL0 |= MPYM_0;
 
     discrete=0;
     // We develop our linear interpolation within our frequency domain and multiply it by our distance_data
@@ -44,7 +44,6 @@ unsigned int calc_freq(unsigned int distance_data, char discrete) {
 
         unsigned int pow_output;
         pow_output = powTable[n_discrete];
-        MPY32CTL0 |= MPYM_0;
         MPY = pow_output;
         OP2 = FIXED_NOTE_FREQ;
 
@@ -66,27 +65,43 @@ unsigned int calc_freq(unsigned int distance_data, char discrete) {
         l2 = ((unsigned long) RES1 << 16) | (RES0) ;
 
         _iq12 volatile long2 = l2 << 12;
-        MPY32CTL0 |= MPYM_0;
         MPY32L = (int) (long2 & 0xFFFF);
         MPY32H = (int) (long2 >> 16);
-        OP2L = (int) (HARDWARERANGE & 0xFFFF);
-        OP2H = (int) (HARDWARERANGE >> 16);
+        OP2L = (int) (hardware_range & 0xFFFF);
+        OP2H = (int) (hardware_range >> 16);
         __delay_cycles(11);
+        //32bit iq12 * 32bit iq12 = 64bit iq24
+        //we know for a fact that the integer portion is going to be in the range of 0-36, so we only need to read the lower 32 bits
         _iq24 volatile output = ((unsigned long) RES1 << 16) | RES0;
         _iq24 volatile minfreqsteps = (long) min_freq_steps << 24;
         _iq24 volatile n24 = output + minfreqsteps;
         _iq24 volatile result;
-        result = _IQ24exp(_IQ24mpy(_IQ24log(FREQBASE), n24));
 
+        _iq24 volatile freq_base_log = _IQ24log(freq_base_fixed); // i imagine there's some way to speed this up
+        //the result of this operation is SIGNED, by the way.
+        // so when we multiply, we need to get a signed value out of it.
 
-        MPY32CTL0 |= MPYM_0;
-        MPY32L = (int) (FIXEDNOTEFREQ & 0xFFFF);
-        MPY32H = (int) (FIXEDNOTEFREQ >> 16);
-        OP2L = (int) (result >> 4) & 0xFFFF;
-        OP2H = (int) (result >> 20);
+        MPYS32L = (int) (freq_base_log & 0xFFFF);
+        MPYS32H = (int) (freq_base_log >> 16);
+        OP2L = (int) (n24 & 0xFFFF);
+        OP2H = (int) (n24 >> 16);
         __delay_cycles(11);
-        _iq8 volatile finalResult = ((unsigned long) RES3 << 16) | RES2;
-        unsigned int volatile final = ((int) _IQ8int(finalResult));
+        //32 iq24 * 32bit iq24 = 64bit iq48
+        //we know for a fact that the integer portion is going to be far less than 16 bits, so
+        //we read the 16 integer bits and the top 16 fractional bits
+        _iq16 volatile log_result = (unsigned long) RES3 << 16) | RES2;
+
+        result = _IQ16exp(log_result); //i imagine there's some way to speed this up
+
+        MPY32L = (int) (fixed_note_freq_fixed & 0xFFFF);
+        MPY32H = (int) (fixed_note_freq_fixed >> 16);
+        OP2L = (int) (result) & 0xFFFF;
+        OP2H = (int) (result >> 16);
+        __delay_cycles(11);
+        //32bit iq16 * 32bit iq16 = 64bit iq32
+        //we know for a fact that the integer portion is going to be in the range of 220-1760
+        //so we only need to read the least significant integer bits!
+        unsigned int volatile final = RES2;
         return final;
 
         // exp(log(x) * n) == pow(x,n)

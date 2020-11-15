@@ -6,11 +6,21 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 A_SRCS += \
-C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a \
-C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a 
+D:/Documents/4th\ Year\ UVA/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a \
+D:/Documents/4th\ Year\ UVA/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a 
 
 CMD_SRCS += \
 ../lnk_msp430fr2355.cmd 
+
+LIB_SRCS += \
+../IQmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_large_data.lib \
+../IQmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_restricted_data.lib \
+../IQmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_small_data.lib \
+../IQmathLib_CCS_MPY32_5xx_6xx_CPUX_small_code_small_data.lib \
+../QmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_large_data.lib \
+../QmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_restricted_data.lib \
+../QmathLib_CCS_MPY32_5xx_6xx_CPUX_large_code_small_data.lib \
+../QmathLib_CCS_MPY32_5xx_6xx_CPUX_small_code_small_data.lib 
 
 C_SRCS += \
 ../ADC.c \
@@ -54,7 +64,7 @@ C_SRCS__QUOTED += \
 "../test_functions.c" 
 
 A_SRCS__QUOTED += \
-"C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a" \
-"C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a" 
+"D:/Documents/4th Year UVA/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a" \
+"D:/Documents/4th Year UVA/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a" 
 
 
