@@ -5,6 +5,10 @@
 SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
+A_SRCS += \
+C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a \
+C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a 
+
 CMD_SRCS += \
 ../lnk_msp430fr2355.cmd 
 
@@ -45,9 +49,12 @@ C_DEPS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../ADC.c" \
-"../DAC.c" \
 "../InitHardwareSubsystems.c" \
 "../main.c" \
 "../test_functions.c" 
+
+A_SRCS__QUOTED += \
+"C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/IQmathLib.a" \
+"C:/ti/msp430/IQMATHLIB_01_10_00_05/libraries/CCS/MPY32/5xx_6xx/QmathLib.a" 
 
 

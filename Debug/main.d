@@ -24,6 +24,14 @@ main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stri
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/setjmp.h
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdio.h
 main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdarg.h
+main.obj: C:/ti/msp430/IQMATHLIB_01_10_00_05/include/IQmathLib.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/limits.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdlib.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdint.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/_stdint40.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/stdint.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_stdint.h
+main.obj: C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/_stdint.h
 main.obj: ../PortIODefs.h
 main.obj: ../ConstantDefinitions.h
 main.obj: ../GlobalVariables.h
@@ -58,6 +66,14 @@ C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/string.h:
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/setjmp.h: 
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdio.h: 
 C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdarg.h: 
+C:/ti/msp430/IQMATHLIB_01_10_00_05/include/IQmathLib.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/limits.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdlib.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/stdint.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/_stdint40.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/stdint.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/machine/_stdint.h: 
+C:/ti/ccs1011/ccs/tools/compiler/ti-cgt-msp430_20.2.1.LTS/include/sys/_stdint.h: 
 ../PortIODefs.h: 
 ../ConstantDefinitions.h: 
 ../GlobalVariables.h: 

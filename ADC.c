@@ -30,7 +30,8 @@ void ConfigureTimerB1(void)
     // Enable TB1CCR0 Compare/Capture Interrupt Flag (CCIFG0)
     TB1CCTL0 |= CCIE;
 }
-
+int prev_pitch = 10000;
+int prev_pitch_b = 10000;
 #pragma vector = TIMER1_B0_VECTOR
 // Interrupt service routine for CCIFG0
 __interrupt void TimerB1ISR(void)
@@ -43,7 +44,15 @@ __interrupt void TimerB1ISR(void)
 
     while (ADC_IS_BUSY);
 
-    pitch_range_data = ADC_DATA;
+    if (prev_pitch_b - ADC_DATA <= 115){
+        pitch_range_data = prev_pitch;
+    } else if (ADC_DATA - prev_pitch_b <= 115){
+        pitch_range_data = prev_pitch;
+    } else {
+        pitch_range_data = ADC_DATA;
+    }
+    prev_pitch_b = ADC_DATA;
+    prev_pitch = pitch_range_data;
 
     TURN_OFF_ADC;
     SET_ADC_INPUT_VOLUME;

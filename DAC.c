@@ -12,6 +12,7 @@
 #include "GlobalVariables.h"
 #include "PortIODefs.h"
 #include "test_functions.h"
+#include "IQmathLib.h"
 
 
 unsigned int calc_freq(unsigned int distance_data, char discrete) {
@@ -23,8 +24,7 @@ unsigned int calc_freq(unsigned int distance_data, char discrete) {
     //hardware multiplication
     MPY32CTL0 |= MPYM_0;
 
-
-
+    discrete=0;
     // We develop our linear interpolation within our frequency domain and multiply it by our distance_data
     if (discrete) {
         unsigned int n_discrete;
@@ -65,28 +65,31 @@ unsigned int calc_freq(unsigned int distance_data, char discrete) {
         //read the result of the hardware multiplication
         l2 = ((unsigned long) RES1 << 16) | (RES0) ;
 
-//        quotient = (l >> 12);
-//
-//        // _ _ _ _ _ _ | _ _ _ _ _ _ _ _ _ _
-//
-//        // 2^-1 * a + 2^-2 * b + ... + 2^-10 * j
-//        a = (l2 &= BIT11) << 10;
-//        b = (l2 &= BIT10) << 10;
-//        c = (l2 &= BIT9) << 10;
-//        d = (l2 &= BIT8) << 10;
-//        e = (l2 &= BIT7) << 10;
-//        f = (l2 &= BIT6) << 10;
-//        g = (l2 &= BIT5) << 10;
-//        h = (l2 &= BIT4) << 10;
-//        i = (l2 &= BIT3) << 10;
-//        j = (l2 &= BIT2) << 10;
-//
-//        decimal = (a+b+c+d+e+f+g+h+i+j) >> 10;
+        _iq12 volatile long2 = l2 << 12;
+        MPY32CTL0 |= MPYM_0;
+        MPY32L = (int) (long2 & 0xFFFF);
+        MPY32H = (int) (long2 >> 16);
+        OP2L = (int) (HARDWARERANGE & 0xFFFF);
+        OP2H = (int) (HARDWARERANGE >> 16);
+        __delay_cycles(11);
+        _iq24 volatile output = ((unsigned long) RES1 << 16) | RES0;
+        _iq24 volatile minfreqsteps = (long) min_freq_steps << 24;
+        _iq24 volatile n24 = output + minfreqsteps;
+        _iq24 volatile result;
+        result = _IQ24exp(_IQ24mpy(_IQ24log(FREQBASE), n24));
 
 
-        // quotient | decimal
+        MPY32CTL0 |= MPYM_0;
+        MPY32L = (int) (FIXEDNOTEFREQ & 0xFFFF);
+        MPY32H = (int) (FIXEDNOTEFREQ >> 16);
+        OP2L = (int) (result >> 4) & 0xFFFF;
+        OP2H = (int) (result >> 20);
+        __delay_cycles(11);
+        _iq8 volatile finalResult = ((unsigned long) RES3 << 16) | RES2;
+        unsigned int volatile final = ((int) _IQ8int(finalResult));
+        return final;
 
-        n = (double) (l / 4096.0) + (min_freq_steps);
+        // exp(log(x) * n) == pow(x,n)
 //        n = (double) (l / 4096.0) + (min_freq_steps);
         // floating point division is awfully slow. I really would like to improve this somehow.
     }
@@ -199,8 +202,11 @@ void ConfigureTimerB0(void)
 __interrupt void TimerB0ISR(void)
 {
     signed long volatile l_amplitude;
-    if (SWITCH_IS_ON) DAC_period = calc_hack(pitch_range_data, DISCRETE);
-    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
+
+//    if (SWITCH_IS_ON) DAC_period = calc_hack(pitch_range_data, DISCRETE);
+//    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
+
+    DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
 
     TB0CCR0 = DAC_period;
 //    scaled_result = (double) volume_range_data * SinusoidArray[current_array_index] / 2;

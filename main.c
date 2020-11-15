@@ -16,6 +16,7 @@
 #include "useful.h"
 #include <math.h>
 #include <stdio.h>
+#include "IQmathLib.h"
 /* External Functions
  *
  */
@@ -153,6 +154,9 @@ void init_Constants(void) {
     min_freq_steps = log(MIN_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     max_freq_steps = log(MAX_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
     freq_step_range = (long) (max_freq_steps - min_freq_steps);
+    HARDWARERANGE = _IQ13(0.00024414); // (1/4096.0) workaround to get 1/4096
+    FREQBASE = _IQ24(FREQ_BASE);// rename
+    FIXEDNOTEFREQ = _IQ20(FIXED_NOTE_FREQ); // rename
 
 }
 
