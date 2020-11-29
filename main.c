@@ -16,7 +16,6 @@
 #include "useful.h"
 #include <math.h>
 #include <stdio.h>
-#include "IQmathLib.h"
 /* External Functions
  *
  */
@@ -62,7 +61,6 @@ int main(void)
 #endif
 
     //Initialize variables
-    init_Constants();
     init_GlobalVariables();
 
     //Initialize hardware
@@ -70,12 +68,6 @@ int main(void)
     init_HardwareSubsystems();
     ConfigureTimerB0(); // used for the DAC interrupt
     ConfigureTimerB1(); // used for the ADC interrupt
-
-#ifdef DEBUG_VERSION
-    ConfigureTimerB2();
-#endif
-
-
 
 	//Finally enable interrupts
     __enable_interrupt();
@@ -87,20 +79,9 @@ int main(void)
     test_pin_switch();
 #endif
 
-//    double scaled_result;
-//    int scaled_result_int;
 	while(1){
-		//Main Loop
-//	    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
-//	    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
-
-	    // doesnt work in interrupt
-//	    scaled_result_int = (int) (volume_range_data * SinusoidArray[current_array_index]) >> 1;
-//	    next_sine_value = scaled_result_int + 2047;
-
 
 	}
-//	return 0;
 }
 
 // this function is taken from the example code - "Out of Box Experience" - for the MSP-EXP430FR2355'
@@ -138,26 +119,6 @@ void init_GlobalVariables(void) {
     volume_range_data = 2048;
     pitch_range_data = 2048;
     current_array_index = 0;
-
-    if (SWITCH_IS_ON) DAC_period = calc_period_full(pitch_range_data, DISCRETE);
-    else DAC_period = calc_period_full(pitch_range_data, CONTINUOUS);
-
-    // the volume data is a 12-bit number, so we can cast it to double and multiply it by the sine_function
-    // BUT that number will then vary from 0-4096, and that's too high because we're going to be adding the DC offset
-    // SO we divide by 2 before casting it back to an int
-    // the result will be a 12-bit number.
-
-
 }
 
-void init_Constants(void) {
-    min_freq_steps = log(MIN_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
-    max_freq_steps = log(MAX_FREQ*1.0/FIXED_NOTE_FREQ)/log(FREQ_BASE);
-    freq_step_range = (long) (max_freq_steps - min_freq_steps);
-    hardware_range = _IQ13(0.00024414); // (1/4096.0) workaround to get 1/4096
-    freq_base_fixed = _IQ24(FREQ_BASE);// rename
-    fixed_note_freq_fixed = _IQ16(FIXED_NOTE_FREQ); // rename
-    freq_base_log = _IQ24log(freq_base_fixed);
-
-}
 

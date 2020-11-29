@@ -23,68 +23,17 @@
 #define DAC_SET_PRIMARY_REF_VOLTAGE     SAC_DAC_RGSTR &= ~(DACSREF)
 #define DAC_LATCH_LOAD_ON_WRITE         SAC_DAC_RGSTR &= ~(DACLSEL1 | DACLSEL0)
 
-double scaled_result;
-int scaled_result_int;
-
-/*
- * Given an input distance measurement, returns the frequency of the note that corresponds to that distance.
- * The frequency is calculated with the formula:
- * f_n = f_0 * (a)^n
- * Where
- * f_n is the output frequency
- * f_0 is the frequency of our fixed note
- * a is what I'll call the frequency base - it is equal to the twelfth root of two
- * n is the number of half steps away from our fixed note our note is.
+/**
+ * Given an input 12-bit unsigned integer, returns the corresponding Timer Capture Register value in order to produce the desired pitch for a 16 MHz clock.
+ * The results of this function are based upon the equal tempered scale function; however, to increase speed, all possible values are pre-calculated and stored in lookup tables.
+ * The output of the equal tempered scale function is linearly mapped across three octaves (220 Hz to 1760 Hz).
+ * Values in each octave are then additionally multiplied by a different number in order to ensure that the DAC interrupt does not occur too often;
+ * to compensate, the number of samps_per_cycle is divided by the same factor.
  *
- * We calculate n by doing the following:
- * We define the minimum and maximum frequency that our system will output.
- * We can solve the above formula for n, giving us the number of steps that correspond to the minimum and maximum frequency.
- * That calculation is done in the initialization function, init_Constants(), giving us the frequency step range.
+ * If discrete is equal to 0, this function is a 1-1 mapping of all 4095 possible distance_data values to 4095 corresponding Timer Capture Register values,
  *
- * Since our distance data must be between 0 and 4095 (inclusive),
- * we say that a value of 0 will correspond to the minimum frequency,
- * while a value of 4095 will correspond to the maximum frequency.
- * We thus use n to linearly interpolate across the otherwise exponential function.
- *
- * n is thus correct in terms of linear scaling, but it afterwards needs to be offset
- * by adding to it the number of steps that correspond to the minimum frequency.
- * This way, a distance_data value of 0 will correspond to the minimum frequency.
- *
- * Arguments:
- * unsigned int distance_data - the 12-bit number corresponding to the reading from the optical sensor assigned to pitch.
- * char discrete - if discrete is non-zero, then n will be an integer, corresponding to a frequency on the equal tempered scale. If zero, n will be non-integer and thus freely interpolate between all possible frequencies.
- *
- * Returns:
- * The frequency that corresponds to the value of range_data, interpolated within the frequency domain.
+ * If discrete is nonzero, this function rounds values down to the nearest note on the 12-note scale.
  */
-unsigned int calc_freq(unsigned int distance_data, char discrete);
-
-/*
- * Calculates the period for which DAC will update values.
- *
- * Since the ultimate goal is a sine wave, we need to multiply the frequency by the number of entries
- * in our sine lookup table.
- *
- * However, for higher frequencies, we also want to skip over entries in the sine lookup table to ensure that
- * we don't struggle to keep up with updating the DAC. On the other hand, we want to ensure that there's a minimum frequency
- * so that our reconstruction filter works properly.
- *
- * We set the minimum frequency as the base, outputting 64 samples per cycle.
- * For every octave we go up, we divide the number of samples per cycle by 2.
- * We can figure out what octave we are in by comparing the input frequency to the base frequency.
- *
- * Thus, we multiply our input frequency by the number of samples per cycle,
- * Then divide the clock speed by that value.
- * This is the period at which the DAC will update values.
- *
- * Arguments:
- * unsigned int frequency - the desired frequency of the output sine wave.
- *
- * Returns:
- * The number of clock cycles to wait in between updating each value of the sine wave, assuming a 16 MHz clock.
- */
-unsigned int calc_period(unsigned int frequency);
-
 unsigned int calc_period_full(unsigned int distance_data, char discrete);
 
 void ConfigureTimerB0();
@@ -96,7 +45,5 @@ extern const int continuousPeriod[];
 extern const int powTable[];
 
 extern const int SinusoidArrayInt[];
-
-extern const double SinusoidArray[];
 
 #endif /* DAC_H_ */

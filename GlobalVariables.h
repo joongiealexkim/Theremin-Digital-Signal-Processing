@@ -11,7 +11,6 @@
 unsigned int volume_range_data;
 unsigned int pitch_range_data;
 
-unsigned int DAC_period;
 unsigned int next_sine_value;
 
 unsigned int samps_per_cycle;
