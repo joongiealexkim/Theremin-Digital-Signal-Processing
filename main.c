@@ -87,8 +87,8 @@ int main(void)
     test_pin_switch();
 #endif
 
-    double scaled_result;
-    int scaled_result_int;
+//    double scaled_result;
+//    int scaled_result_int;
 	while(1){
 		//Main Loop
 //	    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
@@ -100,7 +100,7 @@ int main(void)
 
 
 	}
-	return 0;
+//	return 0;
 }
 
 // this function is taken from the example code - "Out of Box Experience" - for the MSP-EXP430FR2355'
@@ -139,8 +139,8 @@ void init_GlobalVariables(void) {
     pitch_range_data = 2048;
     current_array_index = 0;
 
-    if (SWITCH_IS_ON) DAC_period = calc_period(calc_freq(pitch_range_data, DISCRETE));
-    else DAC_period = calc_period(calc_freq(pitch_range_data, CONTINUOUS));
+    if (SWITCH_IS_ON) DAC_period = calc_period_full(pitch_range_data, DISCRETE);
+    else DAC_period = calc_period_full(pitch_range_data, CONTINUOUS);
 
     // the volume data is a 12-bit number, so we can cast it to double and multiply it by the sine_function
     // BUT that number will then vary from 0-4096, and that's too high because we're going to be adding the DC offset
@@ -157,6 +157,7 @@ void init_Constants(void) {
     hardware_range = _IQ13(0.00024414); // (1/4096.0) workaround to get 1/4096
     freq_base_fixed = _IQ24(FREQ_BASE);// rename
     fixed_note_freq_fixed = _IQ16(FIXED_NOTE_FREQ); // rename
+    freq_base_log = _IQ24log(freq_base_fixed);
 
 }
 

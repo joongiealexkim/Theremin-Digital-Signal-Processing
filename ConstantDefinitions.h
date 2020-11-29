@@ -24,9 +24,10 @@ double min_freq_steps; //the number of half-steps away the minimum frequency is 
 double max_freq_steps; //the number of half-steps away the maximum frequency is from the fixed note frequency
 unsigned int freq_step_range;
 
-const _iq12 hardware_range; //equal 1/4096
-const _iq16 fixed_note_freq_fixed; //FIXED_NOTE_FREQ, but in IQ20 fixed point format.
-const _iq24 freq_base_fixed; //FREQ_BASE, but in IQ24 fixed point format.
+_iq12 hardware_range; //equal 1/4096
+_iq16 fixed_note_freq_fixed; //FIXED_NOTE_FREQ, but in IQ20 fixed point format.
+_iq24 freq_base_fixed; //FREQ_BASE, but in IQ24 fixed point format.
+_iq24 freq_base_log;
 
 
 

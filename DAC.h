@@ -85,9 +85,13 @@ unsigned int calc_freq(unsigned int distance_data, char discrete);
  */
 unsigned int calc_period(unsigned int frequency);
 
+unsigned int calc_period_full(unsigned int distance_data, char discrete);
+
 void ConfigureTimerB0();
 
 extern const int discretePeriod[];
+
+extern const int continuousPeriod[];
 
 extern const int powTable[];
 
