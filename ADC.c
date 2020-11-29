@@ -31,13 +31,11 @@ void ConfigureTimerB1(void)
     TB1CCTL0 |= CCIE;
 }
 
-// Interrupt service routine for CCIFG0
 unsigned int buffer[16] = {0};
 unsigned long total = 0;
 unsigned int i = 0;
 
 #pragma vector = TIMER1_B0_VECTOR
-// Interrupt service routine for CCIFG0
 __interrupt void TimerB1ISR(void)
 {
     // okay, so the ADC needs to:
